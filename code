@@ -1,0 +1,27 @@
+---First example : CASE WHEN 
+--Create bins for quantity purchases 
+select * , 
+       case 
+       when quantity = 1 then 'quantity is 1'
+       when quantity between 2 and 4 then 'Average quantity purchased'
+       when quantity between 5 and 7 then 'Good quantity purchased'
+       else 'Outstanding quantity purchased'
+       end as Quantity_Flag
+from `farmers_database.customer_purchases`  
+
+
+---Create flag for vendor type as Fresh food vs Not 
+select vendor_type , 
+       case 
+       when lower(vendor_type) like '%fresh%' then 1 
+       else 0 
+       end as fresh_flag 
+from `farmers_database.vendor`
+
+
+---If statements : 
+select sum(fresh_flag)
+from 
+(select vendor_type ,
+      if( lower(vendor_type) like '%fresh%', 1,0) as fresh_flag
+from `farmers_database.vendor` )
